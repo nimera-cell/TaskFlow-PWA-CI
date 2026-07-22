@@ -1,0 +1,41 @@
+# Nombre que aparecerá en la pestaña Actions de GitHub
+name: Angular PWA CI
+
+# Eventos que ejecutarán automáticamente el workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Trabajos que forman parte del pipeline
+jobs:
+  build-and-test:
+    # Sistema operativo utilizado por GitHub Actions
+    runs-on: ubuntu-latest
+
+    steps:
+      # Descarga el contenido del repositorio
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Configura Node.js para ejecutar Angular y Vitest
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Instala exactamente las dependencias de package-lock.json
+      - name: Install
+        run: npm ci
+
+      # Ejecuta las pruebas una sola vez
+      - name: Test
+        run: npm test -- --run
+
+      # Genera la versión de producción de Angular
+      - name: Build
+        run: npm run build

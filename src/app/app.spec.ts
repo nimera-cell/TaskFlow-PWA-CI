@@ -1,23 +1,56 @@
-import { TestBed } from '@angular/core/testing';
+/**
+ * @vitest-environment jsdom
+ * @vitest-environment-options {"url":"http://localhost/"}
+ */
+
+/**
+ * Carga el compilador JIT de Angular antes de importar
+ * el componente que se probará.
+ */
+import '@angular/compiler';
+
+import {
+  beforeEach,
+  describe,
+  expect,
+  it
+} from 'vitest';
+
 import { App } from './app';
 
 describe('App', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-    }).compileComponents();
+  /**
+   * Limpia LocalStorage antes de cada prueba para evitar
+   * que los datos de una prueba afecten a las siguientes.
+   */
+  beforeEach(() => {
+    localStorage.clear();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
+  it('debe crear la aplicación correctamente', () => {
+    const app = new App();
+
     expect(app).toBeTruthy();
   });
 
-  it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, laboratorio-pwa');
+  it('debe iniciar con el campo de nueva tarea vacío', () => {
+    const app = new App();
+
+    expect(app.nuevaTarea).toBe('');
+  });
+
+  it('debe agregar una nueva tarea', () => {
+    const app = new App();
+
+    app.nuevaTarea = 'Preparar informe del laboratorio';
+    app.agregarTarea();
+
+    const tareaAgregada = app.tareas.find(
+      (tarea) =>
+        tarea.titulo === 'Preparar informe del laboratorio'
+    );
+
+    expect(tareaAgregada).toBeDefined();
+    expect(tareaAgregada?.completada).toBe(false);
   });
 });

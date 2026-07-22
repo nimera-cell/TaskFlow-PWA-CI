@@ -1,0 +1,78 @@
+/* Tarjeta principal de la aplicación */
+.card {
+  overflow: hidden;
+  border: none;
+  border-radius: 16px;
+}
+
+/* Encabezado personalizado */
+.card-header {
+  padding: 1.5rem;
+  background-color: #6f42c1;
+}
+
+/* Botón principal personalizado */
+.btn-personalizado {
+  color: #ffffff;
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.btn-personalizado:hover {
+  color: #ffffff;
+  background-color: #59359c;
+  border-color: #59359c;
+}
+
+.btn-personalizado:focus {
+  color: #ffffff;
+  background-color: #59359c;
+  border-color: #59359c;
+  box-shadow: 0 0 0 0.25rem rgba(111, 66, 193, 0.25);
+}
+
+/* Elementos de la lista */
+.list-group-item {
+  padding: 1rem;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* Texto de cada tarea */
+.list-group-item span {
+  word-break: break-word;
+  transition:
+    color 0.2s ease,
+    text-decoration 0.2s ease;
+}
+
+/* Tareas completadas */
+.tarea-completada {
+  background-color: #f1f3f5;
+}
+
+/* Pie de la tarjeta */
+.card-footer {
+  background-color: #ffffff;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 576px) {
+  .list-group-item {
+    align-items: flex-start !important;
+    flex-direction: column;
+  }
+
+  .list-group-item > div:last-child {
+    width: 100%;
+  }
+
+  .list-group-item button {
+    flex: 1;
+  }
+}
