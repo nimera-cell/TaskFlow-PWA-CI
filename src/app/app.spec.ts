@@ -3,10 +3,6 @@
  * @vitest-environment-options {"url":"http://localhost/"}
  */
 
-/**
- * Carga el compilador JIT de Angular antes de importar
- * el componente que se probará.
- */
 import '@angular/compiler';
 
 import {
@@ -19,10 +15,6 @@ import {
 import { App } from './app';
 
 describe('App', () => {
-  /**
-   * Limpia LocalStorage antes de cada prueba para evitar
-   * que los datos de una prueba afecten a las siguientes.
-   */
   beforeEach(() => {
     localStorage.clear();
   });
@@ -52,5 +44,26 @@ describe('App', () => {
 
     expect(tareaAgregada).toBeDefined();
     expect(tareaAgregada?.completada).toBe(false);
+  });
+
+  it('debe cambiar una tarea de pendiente a completada', () => {
+    const app = new App();
+
+    app.nuevaTarea = 'Revisar funcionamiento del pipeline';
+    app.agregarTarea();
+
+    const tarea = app.tareas.find(
+      (item) =>
+        item.titulo === 'Revisar funcionamiento del pipeline'
+    );
+
+    expect(tarea).toBeDefined();
+    expect(tarea?.completada).toBe(false);
+
+    if (tarea) {
+      app.cambiarEstado(tarea);
+    }
+
+    expect(tarea?.completada).toBe(true);
   });
 });
